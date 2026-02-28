@@ -1,0 +1,8 @@
+cat > systemd/kasm-update.service << 'EOF'
+[Unit]
+Description=Kasm LXC Auto Update
+
+[Service]
+Type=oneshot
+ExecStart=/scripts/kasm-lxc-auto-update.sh 106 --notify-none
+EOF
