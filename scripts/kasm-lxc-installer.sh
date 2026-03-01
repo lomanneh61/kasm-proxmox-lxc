@@ -1,12 +1,6 @@
 #!/bin/bash
 set -e
 
-CTID=$1
-if [ -z "$CTID" ]; then
-  echo "Usage: $0 <CTID>"
-  exit 1
-fi
-
 echo "=== Checking for Debian 12 template ==="
 TEMPLATE=$(pveam available | awk '/debian-12-standard/ {print $2; exit}')
 
@@ -21,7 +15,14 @@ if ! pveam list local | grep -q "$TEMPLATE"; then
   pveam download local "$TEMPLATE"
 fi
 
-pct create $CTID local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst \
+CTID=$1
+if [ -z "$CTID" ]; then
+  echo "Usage: $0 <CTID>"
+  exit 1
+fi
+
+echo "=== Creating Debian 12 LXC container ($CTID) ==="
+pct create $CTID local:vztmpl/$TEMPLATE \
   --hostname kasm \
   --cores 4 \
   --memory 8192 \
