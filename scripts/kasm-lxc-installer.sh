@@ -8,6 +8,15 @@ if [ -z "$CTID" ]; then
 fi
 
 echo "=== Creating Debian 12 LXC container ($CTID) ==="
+TEMPLATE="debian-12-standard_12.2-1_amd64.tar.zst"
+
+echo "=== Checking for Debian 12 template ==="
+if ! pveam list local | grep -q "$TEMPLATE"; then
+  echo "Template not found. Downloading..."
+  pveam update
+  pveam download local $TEMPLATE
+fi
+
 pct create $CTID local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst \
   --hostname kasm \
   --cores 4 \
