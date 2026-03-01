@@ -64,8 +64,6 @@ pct create "$CTID" local:vztmpl/$TEMPLATE \
   --features nesting=1,keyctl=1,fuse=1 \
   --unprivileged 0
 
-pct stop "$CTID"
-
 # ---------------------------------------------------------
 #  Apply Kasm Required LXC Config
 # ---------------------------------------------------------
