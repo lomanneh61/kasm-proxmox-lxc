@@ -7,14 +7,18 @@ if [ -z "$CTID" ]; then
   exit 1
 fi
 
-echo "=== Creating Debian 12 LXC container ($CTID) ==="
-TEMPLATE="debian-12-standard_12.2-1_amd64.tar.zst"
-
 echo "=== Checking for Debian 12 template ==="
+TEMPLATE=$(pveam available | awk '/debian-12-standard/ {print $2; exit}')
+
+if [ -z "$TEMPLATE" ]; then
+  echo "ERROR: No Debian 12 template found in pveam available list."
+  exit 1
+fi
+
 if ! pveam list local | grep -q "$TEMPLATE"; then
-  echo "Template not found. Downloading..."
+  echo "Template not found locally. Downloading $TEMPLATE ..."
   pveam update
-  pveam download local $TEMPLATE
+  pveam download local "$TEMPLATE"
 fi
 
 pct create $CTID local:vztmpl/debian-12-standard_12.2-1_amd64.tar.zst \
