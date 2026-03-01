@@ -1,4 +1,3 @@
-cat > scripts/kasm-lxc-installer.sh << 'EOF'
 #!/bin/bash
 set -e
 
@@ -71,4 +70,3 @@ bash kasm_install.sh --accept-eula --swap-size 4096
 "
 
 echo "=== Kasm installation complete ==="
-EOF
